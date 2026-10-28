@@ -5,7 +5,6 @@ import {
   RotateCcw, 
   LayoutGrid, 
   CheckCircle2, 
-  HelpCircle,
   X,
   Maximize,
   Minimize

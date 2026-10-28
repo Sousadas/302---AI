@@ -59,7 +59,7 @@ export const Slide02Overview: React.FC<Slide02OverviewProps> = ({
           Presentation Overview
         </h2>
         <p className="mt-2 text-sm sm:text-base text-slate-300 max-w-3xl">
-          Six foundational chapters linking generative theory to real-world deployment across education, software, design, and interactive media.
+          Five concise chapters linking generative AI fundamentals to industry deployment, our practical case study, and conclusion.
         </p>
       </motion.div>
 

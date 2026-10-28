@@ -35,26 +35,26 @@ export const Slide03WhatIsGenAI: React.FC<Slide03WhatIsGenAIProps> = ({
   const concepts: Record<ConceptKey, { title: string; subtitle: string; desc: string; icon: React.ReactNode }> = {
     learn: {
       title: 'LEARN',
-      subtitle: 'Pattern Discovery from Vast Data',
-      desc: 'Models analyze billions of text documents, images, or audio clips, discovering statistical distributions, structural syntax, and semantic relationships.',
+      subtitle: 'Pattern Discovery',
+      desc: 'Models analyze vast datasets to discover underlying patterns, syntax, and visual styles.',
       icon: <Brain className="w-4 h-4 text-indigo-400" />
     },
     understand: {
-      title: 'UNDERSTAND CONTEXT',
-      subtitle: 'Prompt Interpretation & Attention',
-      desc: 'The model parses natural language prompts, breaking them into semantic tokens and mapping user intent via multi-head attention layers.',
+      title: 'UNDERSTAND',
+      subtitle: 'Context & Intent',
+      desc: 'The model processes prompts into semantic tokens to capture what the user wants.',
       icon: <Layers className="w-4 h-4 text-cyan-400" />
     },
     generate: {
       title: 'GENERATE',
-      subtitle: 'Synthesis of Novel Artifacts',
-      desc: 'The system synthesizes original outputs token-by-token or pixel-by-pixel, predicting probable completions grounded in learned patterns.',
+      subtitle: 'Content Synthesis',
+      desc: 'The system synthesizes new text, images, audio, or code grounded in learned patterns.',
       icon: <Cpu className="w-4 h-4 text-violet-400" />
     },
     refine: {
       title: 'REFINE',
-      subtitle: 'Iterative User Steering',
-      desc: 'Users guide and polish the output through conversational follow-ups, parameter adjustments, negative prompts, or reference sketches.',
+      subtitle: 'Human Feedback',
+      desc: 'Users adjust prompts and iteratively steer the output toward the desired result.',
       icon: <Sliders className="w-4 h-4 text-emerald-400" />
     }
   };

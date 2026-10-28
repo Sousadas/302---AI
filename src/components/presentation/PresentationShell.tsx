@@ -21,10 +21,7 @@ import { Slide02Overview } from '../slides/Slide02Overview';
 import { Slide03WhatIsGenAI } from '../slides/Slide03WhatIsGenAI';
 import { Slide04HowGenAIWorks } from '../slides/Slide04HowGenAIWorks';
 import { Slide05Applications } from '../slides/Slide05Applications';
-import { Slide06AdvantagesLimitations } from '../slides/Slide06AdvantagesLimitations';
-import { Slide07CaseStudyIntro } from '../slides/Slide07CaseStudyIntro';
-import { Slide08CaseStudyWorkflow } from '../slides/Slide08CaseStudyWorkflow';
-import { Slide09CaseStudyImpact } from '../slides/Slide09CaseStudyImpact';
+import { Slide06CaseStudyUnified } from '../slides/Slide06CaseStudyUnified';
 import { Slide10Conclusion } from '../slides/Slide10Conclusion';
 
 export const PresentationShell: React.FC = () => {
@@ -214,34 +211,12 @@ export const PresentationShell: React.FC = () => {
         );
       case 5:
         return (
-          <Slide06AdvantagesLimitations
+          <Slide06CaseStudyUnified
             animationsEnabled={settings.animationsEnabled}
             soundEnabled={settings.soundEnabled}
           />
         );
       case 6:
-        return (
-          <Slide07CaseStudyIntro
-            onExploreCaseStudy={() => jumpToSlide(7)}
-            animationsEnabled={settings.animationsEnabled}
-            soundEnabled={settings.soundEnabled}
-          />
-        );
-      case 7:
-        return (
-          <Slide08CaseStudyWorkflow
-            animationsEnabled={settings.animationsEnabled}
-            soundEnabled={settings.soundEnabled}
-          />
-        );
-      case 8:
-        return (
-          <Slide09CaseStudyImpact
-            animationsEnabled={settings.animationsEnabled}
-            soundEnabled={settings.soundEnabled}
-          />
-        );
-      case 9:
         return (
           <Slide10Conclusion
             onRestart={() => jumpToSlide(0)}

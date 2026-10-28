@@ -61,7 +61,6 @@
   }
 }
 
-/* Custom Utilities and Animations */
 .glass-panel {
   background: var(--bg-card);
   backdrop-filter: blur(16px);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Award, 
@@ -6,12 +6,12 @@ import {
   LayoutGrid, 
   CheckCircle2, 
   HelpCircle,
-  Volume2,
   X,
-  Crown
+  Maximize,
+  Minimize
 } from 'lucide-react';
 import { presentationMetadata } from '../../data/presentationData';
-import { playSuccess, playTick, playHalaMadridAnthem, stopCelebrationAudio } from '../../utils/audio';
+import { playSuccess, playTick } from '../../utils/audio';
 
 interface Slide10ConclusionProps {
   onRestart: () => void;
@@ -44,51 +44,137 @@ export const Slide10Conclusion: React.FC<Slide10ConclusionProps> = ({
   animationsEnabled,
   soundEnabled,
 }) => {
-  const [showHalaMadrid, setShowHalaMadrid] = useState<boolean>(false);
-  const [secondsRemaining, setSecondsRemaining] = useState<number>(5);
+  const [showVideo, setShowVideo] = useState<boolean>(false);
   const [hasTriggered, setHasTriggered] = useState<boolean>(false);
+  const [isFullscreenMode, setIsFullscreenMode] = useState<boolean>(false);
+  const [showControlsHeader, setShowControlsHeader] = useState<boolean>(true);
+  
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const videoContainerRef = useRef<HTMLDivElement | null>(null);
+  const hideControlsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // 5-second countdown timer after reaching the final slide
+  // Prime the media element for unmuted audio playback on user interaction
   useEffect(() => {
-    if (hasTriggered) return;
+    const unlockMediaAudio = () => {
+      if (videoRef.current) {
+        videoRef.current.muted = false;
+        videoRef.current.volume = 1.0;
+      }
+    };
 
-    const timer = setInterval(() => {
-      setSecondsRemaining((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setShowHalaMadrid(true);
-          setHasTriggered(true);
-          playHalaMadridAnthem(soundEnabled);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
+    window.addEventListener('click', unlockMediaAudio, { passive: true });
+    window.addEventListener('keydown', unlockMediaAudio, { passive: true });
+    window.addEventListener('pointerdown', unlockMediaAudio, { passive: true });
 
-    return () => clearInterval(timer);
-  }, [hasTriggered, soundEnabled]);
-
-  // Stop celebration audio on unmount
-  useEffect(() => {
     return () => {
-      stopCelebrationAudio();
+      window.removeEventListener('click', unlockMediaAudio);
+      window.removeEventListener('keydown', unlockMediaAudio);
+      window.removeEventListener('pointerdown', unlockMediaAudio);
     };
   }, []);
 
+  // Automatically trigger fullscreen video with sound 35 seconds after reaching the final slide
+  useEffect(() => {
+    if (hasTriggered) return;
+
+    const timer = setTimeout(() => {
+      setShowVideo(true);
+      setHasTriggered(true);
+
+      // Play unmuted audio automatically
+      if (videoRef.current) {
+        const video = videoRef.current;
+        video.muted = false;
+        video.volume = 1.0;
+        video.currentTime = 0;
+        
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            // If strictly blocked, start playback and unmute immediately on first gesture
+            video.muted = false;
+            video.volume = 1.0;
+            video.play().catch(() => {});
+          });
+        }
+      }
+    }, 35000);
+
+    return () => clearTimeout(timer);
+  }, [hasTriggered]);
+
+  // When showVideo turns true, ensure audio is unmuted and playing
+  useEffect(() => {
+    if (showVideo && videoRef.current) {
+      const video = videoRef.current;
+      video.muted = false;
+      video.volume = 1.0;
+      video.play().catch(() => {});
+    }
+  }, [showVideo]);
+
+  // Handle Escape key to close video modal cleanly
+  useEffect(() => {
+    if (!showVideo) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        handleCloseVideo();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown, true);
+    return () => window.removeEventListener('keydown', handleKeyDown, true);
+  }, [showVideo]);
+
+  // Auto-hide floating controls overlay during video playback
+  const handleMouseMove = () => {
+    setShowControlsHeader(true);
+    if (hideControlsTimerRef.current) {
+      clearTimeout(hideControlsTimerRef.current);
+    }
+    hideControlsTimerRef.current = setTimeout(() => {
+      setShowControlsHeader(false);
+    }, 3000);
+  };
+
+  const handleToggleNativeFullscreen = () => {
+    try {
+      if (!document.fullscreenElement && videoContainerRef.current) {
+        videoContainerRef.current.requestFullscreen().then(() => {
+          setIsFullscreenMode(true);
+        }).catch(() => {});
+      } else if (document.exitFullscreen) {
+        document.exitFullscreen().then(() => {
+          setIsFullscreenMode(false);
+        }).catch(() => {});
+      }
+    } catch {}
+  };
+
+  const handleCloseVideo = () => {
+    playTick(soundEnabled);
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+    if (document.fullscreenElement && document.exitFullscreen) {
+      try {
+        document.exitFullscreen().catch(() => {});
+      } catch {}
+    }
+    setIsFullscreenMode(false);
+    setShowVideo(false);
+  };
+
   const handleRestart = () => {
-    stopCelebrationAudio();
+    handleCloseVideo();
     playSuccess(soundEnabled);
     onRestart();
   };
 
   const handleReturnToOverview = () => {
-    stopCelebrationAudio();
+    handleCloseVideo();
     playTick(soundEnabled);
     onReturnToOverview();
-  };
-
-  const handleReplayHalaMadrid = () => {
-    playHalaMadridAnthem(soundEnabled);
   };
 
   return (
@@ -102,7 +188,7 @@ export const Slide10Conclusion: React.FC<Slide10ConclusionProps> = ({
       >
         <div className="inline-flex items-center space-x-2 text-cyan-400 text-xs font-mono tracking-widest uppercase mb-1">
           <Award className="w-3.5 h-3.5" />
-          <span>09 / CONCLUSION & PERSPECTIVES</span>
+          <span>06 / CONCLUSION & PERSPECTIVES</span>
         </div>
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-white tracking-tight">
           Imagine More. <span className="text-gradient-cyan">Create Responsibly.</span>
@@ -160,13 +246,10 @@ export const Slide10Conclusion: React.FC<Slide10ConclusionProps> = ({
           THANK YOU
         </h3>
         
-        <p className="text-base sm:text-lg text-slate-300 font-medium mb-4 flex items-center justify-center space-x-2">
-          <HelpCircle className="w-5 h-5 text-indigo-400" />
-          <span>ANY QUESTIONS?</span>
-        </p>
+        <br></br>
 
         <p className="text-xs text-slate-400 mb-6 font-mono">
-          Presenter: <strong className="text-white">{presentationMetadata.presenter}</strong>
+          Presenter: <strong className="text-white">{presentationMetadata.presenter}</strong> • {presentationMetadata.college}
         </p>
 
         {/* Action Controls */}
@@ -186,123 +269,79 @@ export const Slide10Conclusion: React.FC<Slide10ConclusionProps> = ({
             <LayoutGrid className="w-3.5 h-3.5 text-cyan-400" />
             <span>Return to Overview</span>
           </button>
-
-          {/* Discreet Hala Madrid trigger button if already dismissed */}
-          {hasTriggered && !showHalaMadrid && (
-            <button
-              onClick={() => {
-                setShowHalaMadrid(true);
-                handleReplayHalaMadrid();
-              }}
-              className="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer"
-            >
-              <Crown className="w-4 h-4 text-amber-400" />
-              <span>¡Hala Madrid!</span>
-            </button>
-          )}
         </div>
-
-        {/* 5-second countdown hint before triggering */}
-        {!hasTriggered && secondsRemaining > 0 && (
-          <div className="mt-4 flex items-center justify-center space-x-1.5 text-[10px] font-mono text-slate-500">
-            <span>Special celebration in:</span>
-            <span className="text-amber-400 font-bold">{secondsRemaining}s</span>
-          </div>
-        )}
       </motion.div>
 
-      {/* ================================================================ */}
-      {/* CELEBRATORY "¡HALA MADRID!" MODAL / BANNER (AFTER 5 SECONDS)    */}
-      {/* ================================================================ */}
-      <AnimatePresence>
-        {showHalaMadrid && (
-          <motion.div
-            initial={animationsEnabled ? { opacity: 0, scale: 0.8, y: 50 } : { opacity: 1, scale: 1, y: 0 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={animationsEnabled ? { opacity: 0, scale: 0.8, y: 50 } : { opacity: 0 }}
-            transition={{ type: 'spring', damping: 15, stiffness: 100 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
-            role="dialog"
-            aria-label="¡Hala Madrid! Celebration"
-          >
-            {/* Modal Card */}
-            <div className="relative w-full max-w-lg rounded-3xl p-8 bg-gradient-to-b from-[#131B38] via-[#0E152D] to-[#080B16] border-2 border-amber-400/60 shadow-[0_0_80px_-10px_rgba(250,204,21,0.35)] text-center overflow-hidden">
-              
-              {/* Golden Ambient Glows */}
-              <div className="absolute -top-16 -left-16 w-48 h-48 bg-amber-400/20 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-16 -right-16 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Close Button */}
-              <button
-                onClick={() => {
-                  stopCelebrationAudio();
-                  playTick(soundEnabled);
-                  setShowHalaMadrid(false);
-                }}
-                className="absolute top-4 right-4 p-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition cursor-pointer"
-                aria-label="Close celebration"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Royal Crown & Stars */}
-              <motion.div 
-                animate={animationsEnabled ? { rotate: [0, -6, 6, 0], scale: [1, 1.08, 1] } : {}}
-                transition={{ repeat: Infinity, duration: 2.4 }}
-                className="inline-flex p-4 rounded-2xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 shadow-lg shadow-amber-500/30 mb-4"
-              >
-                <Crown className="w-10 h-10 stroke-[2.2]" />
-              </motion.div>
-
-              {/* Stars */}
-              <div className="flex items-center justify-center space-x-2 text-amber-300 text-sm font-bold tracking-widest mb-2 font-mono">
-                <span>★ ★ ★ ★ ★</span>
+      {/* Fullscreen Edge-to-Edge Autoplay Video Overlay (Always mounted to preload & retain audio permission) */}
+      <div
+        ref={videoContainerRef}
+        onMouseMove={handleMouseMove}
+        className={`fixed inset-0 w-screen h-screen z-[100] bg-black flex flex-col items-center justify-center overflow-hidden transition-opacity duration-300 ${
+          showVideo ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Fullscreen Closing Video"
+      >
+        {/* Top Floating Control Bar (Fades smoothly on inactivity) */}
+        <AnimatePresence>
+          {showVideo && showControlsHeader && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-0 left-0 right-0 z-20 px-6 py-4 bg-gradient-to-b from-black/85 via-black/45 to-transparent flex items-center justify-between pointer-events-auto"
+            >
+              <div className="flex items-center space-x-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping" />
+                <span className="font-heading font-bold text-white text-base tracking-wide">
+                  {presentationMetadata.title}
+                </span>
+                <span className="text-xs font-mono text-slate-300 bg-white/10 px-2.5 py-0.5 rounded-full border border-white/10 hidden sm:inline">
+                  Fernando Mugiba • 2026
+                </span>
               </div>
 
-              {/* Triumphant Headline */}
-              <h2 className="text-4xl sm:text-5xl font-heading font-black tracking-tight text-white mb-2 drop-shadow-md">
-                ¡HALA <span className="bg-gradient-to-r from-amber-200 via-amber-400 to-yellow-500 bg-clip-text text-transparent">MADRID!</span>
-              </h2>
-
-              <p className="text-lg sm:text-xl font-heading font-bold text-amber-300 tracking-wide mb-3">
-                ¡Y NADA MÁS!
-              </p>
-
-              <p className="text-xs sm:text-sm text-slate-300 max-w-sm mx-auto leading-relaxed mb-6 font-medium">
-                Celebrando o encerramento da apresentação acadêmica com excelência, vitória e paixão pelo conhecimento!
-              </p>
-
-              {/* Sound & Action Buttons */}
-              <div className="flex flex-wrap items-center justify-center gap-3">
+              <div className="flex items-center space-x-2.5">
                 <button
-                  onClick={handleReplayHalaMadrid}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 hover:brightness-105 text-slate-950 font-heading font-bold text-sm shadow-md shadow-amber-500/20 transition-all flex items-center space-x-2 cursor-pointer"
+                  onClick={handleToggleNativeFullscreen}
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition cursor-pointer border border-white/10"
+                  title={isFullscreenMode ? 'Exit browser fullscreen' : 'Enter browser fullscreen'}
+                  aria-label="Toggle native fullscreen"
                 >
-                  <Volume2 className="w-4 h-4" />
-                  <span>Tocar Som Novamente</span>
+                  {isFullscreenMode ? (
+                    <Minimize className="w-4 h-4" />
+                  ) : (
+                    <Maximize className="w-4 h-4" />
+                  )}
                 </button>
 
                 <button
-                  onClick={() => {
-                    stopCelebrationAudio();
-                    playTick(soundEnabled);
-                    setShowHalaMadrid(false);
-                  }}
-                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white font-mono text-xs font-semibold cursor-pointer transition"
+                  onClick={handleCloseVideo}
+                  className="px-3 py-1.5 rounded-xl bg-rose-600/80 hover:bg-rose-600 text-white font-mono text-xs font-semibold flex items-center space-x-1.5 transition cursor-pointer shadow-lg"
+                  aria-label="Exit video (Esc)"
+                  title="Exit video (Esc)"
                 >
-                  Continuar
+                  <X className="w-4 h-4" />
+                  <span>Fechar (Esc)</span>
                 </button>
               </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-              {/* Decorative Football / Real Madrid Subtext */}
-              <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                <span className="text-amber-400 font-semibold">15x Champions League</span>
-                <span>Fernando Mugiba • 2026</span>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Edge-to-Edge Video Element (Preloaded with Sound Enabled) */}
+        <video
+          ref={videoRef}
+          src="/video.mp4"
+          preload="auto"
+          controls
+          playsInline
+          className="w-full h-full object-contain bg-black select-none"
+          onEnded={() => setShowControlsHeader(true)}
+        />
+      </div>
     </div>
   );
 };

@@ -6,10 +6,7 @@ import {
   BookOpen, 
   Settings, 
   Globe, 
-  BarChart3, 
   Image, 
-  Sliders, 
-  ShieldCheck, 
   GraduationCap,
   Layout
 } from 'lucide-react';
@@ -31,11 +28,8 @@ const slideIcons: Record<number, React.ReactNode> = {
   2: <BookOpen className="w-5 h-5 text-cyan-400" />,
   3: <Settings className="w-5 h-5 text-violet-400" />,
   4: <Globe className="w-5 h-5 text-emerald-400" />,
-  5: <BarChart3 className="w-5 h-5 text-amber-400" />,
-  6: <Image className="w-5 h-5 text-rose-400" />,
-  7: <Sliders className="w-5 h-5 text-cyan-400" />,
-  8: <ShieldCheck className="w-5 h-5 text-indigo-400" />,
-  9: <GraduationCap className="w-5 h-5 text-cyan-400" />,
+  5: <Image className="w-5 h-5 text-amber-400" />,
+  6: <GraduationCap className="w-5 h-5 text-cyan-400" />,
 };
 
 export const OverviewModal: React.FC<OverviewModalProps> = ({

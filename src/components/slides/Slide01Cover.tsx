@@ -67,11 +67,35 @@ export const Slide01Cover: React.FC<Slide01CoverProps> = ({
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="lg:col-span-7 flex flex-col space-y-6"
         >
+          {/* College Institution Header with Official BVM Logo */}
+          <div className="flex items-center space-x-3.5">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white p-1.5 shadow-lg shadow-indigo-500/20 border border-white/20 flex items-center justify-center shrink-0">
+              <img 
+                src="/bvm-logo.png" 
+                alt="Birla Vishvakarma Mahavidyalaya Logo" 
+                className="w-full h-full object-contain"
+              />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <span className="text-xs sm:text-sm font-heading font-bold text-white tracking-wide">
+                  Birla Vishvakarma Mahavidyalaya
+                </span>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 font-semibold">
+                  BVM
+                </span>
+              </div>
+              <span className="text-[11px] text-slate-300 font-mono tracking-wider uppercase block">
+                Engineering College • Vallabh Vidyanagar
+              </span>
+            </div>
+          </div>
+
           {/* Academic Header Badges */}
           <div className="flex items-center space-x-2.5">
             <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono tracking-wider bg-indigo-500/15 border border-indigo-500/30 text-indigo-300">
               <GraduationCap className="w-3.5 h-3.5 text-cyan-400" />
-              <span>{presentationMetadata.course.toUpperCase()}</span>
+              <span>{presentationMetadata.course.toUpperCase()} ({presentationMetadata.subjectCode})</span>
             </span>
             <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-mono tracking-wider bg-white/5 border border-white/10 text-slate-300">
               <Bookmark className="w-3 h-3 text-indigo-400" />
@@ -124,11 +148,11 @@ export const Slide01Cover: React.FC<Slide01CoverProps> = ({
 
             <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center space-x-3">
               <div className="p-2 rounded-lg bg-emerald-500/20 text-emerald-400">
-                <Cpu className="w-4 h-4" />
+                <Bookmark className="w-4 h-4" />
               </div>
               <div className="min-w-0">
-                <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 block">Field</span>
-                <span className="text-xs sm:text-sm font-semibold text-white block">Artificial Intelligence</span>
+                <span className="text-[10px] uppercase font-mono tracking-wider text-slate-400 block">Institution</span>
+                <span className="text-xs sm:text-sm font-semibold text-white block truncate">BVM Engineering College</span>
               </div>
             </div>
 

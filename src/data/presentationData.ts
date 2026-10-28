@@ -16,8 +16,9 @@ export const presentationMetadata = {
   presentationType: 'Academic Presentation',
   presenter: 'Fernando Mugiba',
   year: '2026',
-  institution: 'Department of Computer Science & Artificial Intelligence',
-  totalSlides: 10,
+  college: 'Birla Vishvakarma Mahavidyalaya',
+  institution: 'Department of Computer Science & Information Technology',
+  totalSlides: 7,
 };
 
 export const slidesData: SlideData[] = [
@@ -29,17 +30,17 @@ export const slidesData: SlideData[] = [
     title: 'APPLICATIONS OF GENERATIVE AI',
     subtitle: 'Exploring How Artificial Intelligence Creates Text, Images, Audio, Video, and New Digital Experiences',
     notes: {
-      speakingTimeMin: '30 - 45s',
+      speakingTimeMin: '20 - 30s',
       keyPoints: [
-        'Welcome everyone to this presentation on Applications of Generative AI.',
-        'Generative AI marks a major shift from systems that only classify data to models that synthesize new content.',
-        'Today we will explore how these models work, their real-world uses across six sectors, and an image generation case study.'
+        'Welcome everyone. Today I will present on Applications of Generative AI.',
+        'Generative AI creates original content across text, images, audio, and code.',
+        'We will cover how it works, industry applications, a practical visual case study, and conclusions.'
       ],
-      pedagogicalTip: 'Speak with confidence and clarity. Emphasize that generative AI acts as a creative partner rather than a replacement for human judgment.',
+      pedagogicalTip: 'Speak clearly and confidently. Remind the audience that AI acts as a creative amplifier.',
       potentialQuestions: [
         {
           question: 'What is the main difference between traditional AI and Generative AI?',
-          answer: 'Traditional predictive AI classifies or predicts based on existing patterns (e.g., spam vs non-spam), whereas Generative AI generates entirely novel artifacts such as text, images, or audio.'
+          answer: 'Traditional AI analyzes or classifies existing data (like spam filters), while Generative AI synthesizes brand new content (like images or articles).'
         }
       ]
     }
@@ -50,19 +51,18 @@ export const slidesData: SlideData[] = [
     section: 'Agenda',
     sectionNumber: '01',
     title: 'Presentation Overview',
-    subtitle: 'A structured roadmap covering generative foundations, mechanics, industrial deployments, ethics, and a visual case study.',
+    subtitle: 'Five concise chapters: foundations, mechanics, industry deployment, practical case study, and conclusion.',
     notes: {
-      speakingTimeMin: '30 - 40s',
+      speakingTimeMin: '15 - 25s',
       keyPoints: [
-        'Outline the six chapters of today\'s presentation.',
-        'We begin with core principles and the prompt-to-creation pipeline.',
-        'Next, we survey practical applications, balance benefits against challenges, examine an image-generation case study, and conclude with responsible AI principles.'
+        'Here is our structured roadmap for today.',
+        'We cover core principles, how models generate content, real-world sectors, our visual case study, and concluding takeaways.'
       ],
-      pedagogicalTip: 'Keep it brisk. Invite the audience to note that each section is interactive and can be revisited during the Q&A.',
+      pedagogicalTip: 'Keep it brisk. Advance smoothly to Section 02.',
       potentialQuestions: [
         {
-          question: 'Which slide covers ethical questions like copyright and hallucinations?',
-          answer: 'Section 04 (Slide 06) and our Case Study Evaluation (Slide 09) examine copyright, bias, and responsible use in depth.'
+          question: 'Can we revisit any section during questions?',
+          answer: 'Yes, every section is accessible at any time via the presentation overview.'
         }
       ]
     }
@@ -75,17 +75,17 @@ export const slidesData: SlideData[] = [
     title: 'What Is Generative AI?',
     subtitle: 'Models that learn patterns from vast data to synthesize original text, imagery, sound, video, and code.',
     notes: {
-      speakingTimeMin: '35 - 45s',
+      speakingTimeMin: '25 - 35s',
       keyPoints: [
-        'State the core definition clearly: Generative AI learns patterns from existing data to produce new original content.',
-        'Explain the four fundamental pillars: Learn, Understand Context, Generate, and Refine.',
-        'Mention real tools familiar to everyone: ChatGPT for text, Midjourney and Stable Diffusion for images, Suno for audio, and GitHub Copilot for code.'
+        'Generative AI produces new original content from learned statistical patterns.',
+        'It follows 4 steps: Learn from data, Understand prompt context, Generate output, and Refine with user guidance.',
+        'Everyday tools include ChatGPT for text, Midjourney for images, Suno for audio, and GitHub Copilot for code.'
       ],
-      pedagogicalTip: 'Click through the output tabs on the diagram to show how a single prompt concept branches into diverse modalities.',
+      pedagogicalTip: 'Point out the 4 pillars (Learn, Understand, Generate, Refine). Keep definitions short and plain.',
       potentialQuestions: [
         {
-          question: 'Do all generative models work the same way under the hood?',
-          answer: 'No. Large language models use autoregressive transformers, whereas image generators typically use diffusion or flow-matching architectures.'
+          question: 'Does the model simply copy-paste existing content?',
+          answer: 'No. The model learns probability distributions and constructs new combinations token-by-token or pixel-by-pixel.'
         }
       ]
     }
@@ -98,17 +98,17 @@ export const slidesData: SlideData[] = [
     title: 'From Prompt to Creation',
     subtitle: 'The four-stage pipeline: natural language prompt ingestion, model representation, content generation, and output synthesis.',
     notes: {
-      speakingTimeMin: '35 - 45s',
+      speakingTimeMin: '25 - 35s',
       keyPoints: [
-        'Walk through the four sequential stages: Input prompt -> Model Processing -> Content Generation -> Output synthesis.',
-        'Demonstrate the interactive prompt: click "Try a Prompt" to show "Create a futuristic city at sunset" moving through the pipeline.',
-        'Remind the audience that this is a conceptual educational demonstration showing data flow.'
+        'How it works in four simple steps: Input Prompt -> Model Processing -> Content Generation -> Final Output.',
+        'The user provides a description, the model translates words into mathematical vectors, iteratively predicts content, and renders the result.',
+        'Click "Try a Prompt" to show the real-time simulation across text, image, audio, or code.'
       ],
-      pedagogicalTip: 'Switch between Text, Image, Audio, Video, and Code tabs to illustrate multimodal versatility.',
+      pedagogicalTip: 'Demonstrate with a quick click on the simulation button. Let the visual animation do the talking.',
       potentialQuestions: [
         {
-          question: 'What happens during Stage 02 (Model Processing)?',
-          answer: 'The system tokenizes the prompt, maps it into high-dimensional vector embeddings, and uses attention layers to understand semantic intent.'
+          question: 'What happens during Model Processing?',
+          answer: 'The prompt is broken into tokens and mapped into high-dimensional vectors so the neural network understands semantic relationships.'
         }
       ]
     }
@@ -121,135 +121,68 @@ export const slidesData: SlideData[] = [
     title: 'Where Is Generative AI Used?',
     subtitle: 'Empowering professionals across Education, Healthcare, Business, Software Development, Entertainment, and Design.',
     notes: {
-      speakingTimeMin: '40 - 45s',
+      speakingTimeMin: '30 - 40s',
       keyPoints: [
-        'Highlight six primary sectors where Generative AI is deployed today.',
-        'In Education: personalized explanations and practice questions.',
-        'In Healthcare: drafting clinical summaries for doctor review.',
-        'In Business & Software: campaign drafting and automated code generation.',
-        'In Entertainment & Design: storyboards, brand concepts, and rapid prototyping.'
+        'Generative AI has practical applications across multiple industries:',
+        'In Education: personalized explanations and practice quizzes.',
+        'In Healthcare: drafting clinical notes for doctor review.',
+        'In Software & Business: automated code generation and marketing copy.',
+        'In Design & Media: rapid concept art, storyboards, and mood boards.'
       ],
-      pedagogicalTip: 'Click on a card like Healthcare or Software Development to display the modal with benefits and limitations.',
+      pedagogicalTip: 'Briefly mention 2 or 3 sectors (e.g. Education, Software, Design) without reading every word.',
       potentialQuestions: [
         {
-          question: 'Why must healthcare documentation always be reviewed by a human professional?',
-          answer: 'Because generative models can generate plausible-sounding medical inaccuracies that only a qualified clinician can catch.'
+          question: 'Which sector has seen the fastest adoption?',
+          answer: 'Software development and digital marketing, where tools like GitHub Copilot and ChatGPT directly accelerate daily workflows.'
         }
       ]
     }
   },
   {
-    id: 'benefits-challenges',
+    id: 'case-study',
     number: 6,
-    section: 'Analysis',
-    sectionNumber: '05',
-    title: 'Creative Power, Real Responsibilities',
-    subtitle: 'A balanced assessment weighing rapid idea exploration against hallucinations, bias, and copyright concerns.',
-    notes: {
-      speakingTimeMin: '35 - 45s',
-      keyPoints: [
-        'Present the balanced duality: exceptional creative acceleration on the left, serious operational responsibilities on the right.',
-        'Benefits: Brainstorming, automating tedious tasks, rapid prototyping, accessible personalized learning.',
-        'Challenges: Hallucinations, training bias, intellectual property, deepfakes, and privacy risks.',
-        'Emphasize the concluding quote: Generative AI is most useful when evaluated critically.'
-      ],
-      pedagogicalTip: 'Select an advantage and a challenge interactively to show a concrete real-world comparison.',
-      potentialQuestions: [
-        {
-          question: 'What is an AI hallucination and why does it happen?',
-          answer: 'A hallucination occurs when a model produces grammatically confident but factually incorrect assertions because it predicts statistical token sequences rather than verifying truth.'
-        }
-      ]
-    }
-  },
-  {
-    id: 'case-study-intro',
-    number: 7,
     section: 'Case Study',
-    sectionNumber: '06',
+    sectionNumber: '05',
     title: 'Case Study: AI Image Generation',
-    subtitle: 'From a natural language prompt to a high-impact architectural visual concept.',
+    subtitle: 'Translating descriptive natural-language prompts into high-fidelity architectural concepts in seconds.',
     notes: {
       speakingTimeMin: '30 - 40s',
       keyPoints: [
-        'Introduce the practical design problem: Traditional concept illustration can require days of manual sketching and 3D modeling.',
-        'Present the generative solution: A text-to-image diffusion model translates descriptive natural language into visual concept drafts in seconds.',
-        'Review the focal prompt: "Create a futuristic African city at sunset, with modern architecture, warm lighting, electric blue details, and a cinematic atmosphere."'
+        'In our case study, we demonstrate text-to-image synthesis.',
+        'We give a descriptive prompt: "A cinematic futuristic African metropolis at sunset with electric blue accents."',
+        'The diffusion model generates the visual concept in seconds.',
+        'We evaluate it on 4 criteria: Prompt Alignment, Visual Quality, Creative Novelty, and Human Oversight.'
       ],
-      pedagogicalTip: 'Direct audience attention to the illustrative rendering, highlighting how descriptive terms manifest as visual elements.',
+      pedagogicalTip: 'Switch between the prompt styles (Cinematic, Artistic, Minimalist) to show multimodal flexibility.',
       potentialQuestions: [
         {
-          question: 'Can text-to-image models understand spatial composition like foreground and background?',
-          answer: 'Yes, modern models use spatial cross-attention layers to associate descriptive adjectives with localized regions of the canvas.'
-        }
-      ]
-    }
-  },
-  {
-    id: 'case-study-lab',
-    number: 8,
-    section: 'Case Study',
-    sectionNumber: '07',
-    title: 'How Does Text-to-Image Generation Work?',
-    subtitle: 'A clear four-stage pipeline showing how text prompts become visual concepts.',
-    notes: {
-      speakingTimeMin: '35 - 45s',
-      keyPoints: [
-        'Walk through the four stages: Prompt Creation, Prompt Processing, Image Generation, and Review & Refinement.',
-        'Explain that the user writes a description, the model processes it, generates an image, and then the user can refine the prompt.',
-        'Emphasize that changing descriptive words in a prompt can significantly change the visual result.'
-      ],
-      pedagogicalTip: 'Keep the explanation simple and visual. Focus on the pipeline flow rather than technical model internals.',
-      potentialQuestions: [
-        {
-          question: 'How does changing words in the prompt affect the result?',
-          answer: 'Different adjectives and descriptors guide the model to produce different visual styles — for example, adding "minimalist" leads to cleaner designs while "cinematic" creates more dramatic compositions.'
-        }
-      ]
-    }
-  },
-  {
-    id: 'case-study-evaluation',
-    number: 9,
-    section: 'Evaluation',
-    sectionNumber: '08',
-    title: 'Evaluating the Generated Results',
-    subtitle: 'Four essential qualitative criteria: Prompt Alignment, Visual Quality, Creativity, and Responsible Use.',
-    notes: {
-      speakingTimeMin: '35 - 45s',
-      keyPoints: [
-        'Explain how professionals evaluate generative outputs: Prompt Alignment, Visual Quality, Creativity, and Responsible Use.',
-        'Review the qualitative assessment matrix: Strong alignment on lighting and architecture, partial alignment on cultural nuances, needing refinement on structural consistency.',
-        'Reinforce the keynote lesson: Human judgment remains the vital filter in creative workflows.'
-      ],
-      pedagogicalTip: 'Click on each criterion to reveal the practical rubric and testing questions.',
-      potentialQuestions: [
-        {
-          question: 'How do designers avoid copyright infringement when using generative images?',
-          answer: 'By using commercially safe models trained on licensed datasets, avoiding prompt keywords targeting living artists, and significantly transforming the output with human design work.'
+          question: 'Why is human evaluation still necessary?',
+          answer: 'Because human judgment ensures cultural nuance, accurate physics, and appropriate copyright and context compliance.'
         }
       ]
     }
   },
   {
     id: 'conclusion',
-    number: 10,
+    number: 7,
     section: 'Conclusion',
-    sectionNumber: '09',
+    sectionNumber: '06',
     title: 'Imagine More. Create Responsibly.',
-    subtitle: 'Synthesizing core takeaways: synthesis capabilities, cross-industry transformation, and human-centered ethics.',
+    subtitle: 'Synthesizing core takeaways: content generation, cross-industry transformation, and human-centered ethics.',
     notes: {
-      speakingTimeMin: '30 - 40s',
+      speakingTimeMin: '20 - 30s',
       keyPoints: [
-        'Deliver the three core takeaways: Generative AI synthesizes new content, transforms major industries, and demands responsible evaluation.',
-        'Conclude with the closing message: "Thank you for your time and attention. Any questions?"',
-        'Be prepared to answer questions or return to any slide using the overview controller.'
+        'To conclude, here are our three key takeaways:',
+        '1. Generative AI creates new content from learned patterns.',
+        '2. It empowers professionals across diverse industries.',
+        '3. Critical human thinking and responsible use are essential.',
+        'Thank you for your attention. I am now open for any questions!'
       ],
-      pedagogicalTip: 'Conclude with warmth and academic poise. Leave the slide open for interactive audience discussion.',
+      pedagogicalTip: 'Deliver the conclusion warmly. Open the floor for questions from your teacher and peers.',
       potentialQuestions: [
         {
-          question: 'What is the most promising future direction for Generative AI?',
-          answer: 'Multimodal real-time interactive agents that seamlessly reason and create across text, vision, audio, and physical robotics simultaneously.'
+          question: 'What is the most important skill when using Generative AI?',
+          answer: 'Prompt engineering and critical evaluation — knowing how to instruct the model and verify the accuracy and ethics of its output.'
         }
       ]
     }
@@ -260,8 +193,8 @@ export const overviewSections = [
   {
     number: '01',
     targetSlideIndex: 2,
-    title: 'Introduction to Generative AI',
-    description: 'Foundational definition, the learn-understand-generate-refine loop, and core modalities.',
+    title: 'What Is Generative AI?',
+    description: 'Core definition, the learn-understand-generate-refine cycle, and multimodal outputs.',
     icon: 'BookOpen',
     badge: 'Foundations'
   },
@@ -269,7 +202,7 @@ export const overviewSections = [
     number: '02',
     targetSlideIndex: 3,
     title: 'How Generative AI Works',
-    description: 'The computational pipeline from natural prompt input to multimodal synthesized creation.',
+    description: 'The 4-stage computational pipeline from prompt ingestion to synthetic creation.',
     icon: 'Settings',
     badge: 'Mechanics'
   },
@@ -277,31 +210,23 @@ export const overviewSections = [
     number: '03',
     targetSlideIndex: 4,
     title: 'Applications Across Industries',
-    description: 'Practical deployment across Education, Healthcare, Business, Software, Media, and Design.',
+    description: 'Real-world impact across Education, Healthcare, Business, Code, and Design.',
     icon: 'Globe',
     badge: 'Industries'
   },
   {
     number: '04',
     targetSlideIndex: 5,
-    title: 'Benefits and Challenges',
-    description: 'Balancing rapid creative acceleration against hallucinations, copyright, and training bias.',
-    icon: 'BarChart3',
-    badge: 'Analysis'
-  },
-  {
-    number: '05',
-    targetSlideIndex: 6,
     title: 'Case Study: AI Image Generation',
-    description: 'Exploring how text-to-image generation works, the creation pipeline, and output evaluation.',
+    description: 'Prompt synthesis, visual architectural generation, and qualitative evaluation.',
     icon: 'Image',
     badge: 'Case Study'
   },
   {
-    number: '06',
-    targetSlideIndex: 9,
-    title: 'Conclusion and Perspectives',
-    description: 'Core takeaways, responsible creative stewardship, and open academic Q&A.',
+    number: '05',
+    targetSlideIndex: 6,
+    title: 'Conclusion & Key Takeaways',
+    description: 'Core lessons, human-centered creative stewardship, and open Q&A.',
     icon: 'GraduationCap',
     badge: 'Synthesis'
   }

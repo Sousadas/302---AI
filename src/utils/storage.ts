@@ -36,8 +36,8 @@ export function loadLastSlide(): number {
     const saved = localStorage.getItem(LAST_SLIDE_KEY);
     if (saved) {
       const parsed = parseInt(saved, 10);
-      if (!isNaN(parsed) && parsed >= 0 && parsed <= 9) {
-        return parsed;
+      if (!isNaN(parsed) && parsed >= 0) {
+        return Math.min(parsed, 6);
       }
     }
   } catch (e) {
